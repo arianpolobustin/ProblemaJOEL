@@ -1,0 +1,64 @@
+package exercicisjava;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Prova {
+	
+    public static void main(String[] args) {
+    	Scanner sc = new Scanner(System.in);
+        int index = 0;
+        int casos1 = sc.nextInt();
+        
+        for (int i = 0; i < casos1; i++) {
+            int casos2 = sc.nextInt();
+            
+            ArrayList<String> noms = new ArrayList<>();
+            HashMap<String, Integer> count = new HashMap<>();
+            
+            for (int j = 0; j < casos2; j++) {
+                String nom = sc.next();
+                noms.add(nom);
+                count.put(nom, count.getOrDefault(nom, 0) + 1);
+            }
+            
+            ArrayList<String> nomsUnics = new ArrayList<>();
+            boolean repetido = false;
+            
+            for (int j = 0; j < noms.size(); j++) {
+                String nom = noms.get(j);
+                if (!nomsUnics.contains(nom)) {
+                    nomsUnics.add(nom);
+                }
+            }
+            
+            System.out.println(nomsUnics);
+            
+            HashMap<Integer, ArrayList<String>> repetidos = new HashMap<>();
+            for (String nom : nomsUnics) {
+                if (count.get(nom) > 1) {
+                    repetido = true;
+                    if (!repetidos.containsKey(count.get(nom))) {
+                        repetidos.put(count.get(nom), new ArrayList<>());
+                    }
+                    repetidos.get(count.get(nom)).add(nom);
+                }
+            }
+            
+            if (repetido) {
+                for (Map.Entry<Integer, ArrayList<String>> entry : repetidos.entrySet()) {
+                    if (entry.getValue().size() == 1) {
+                        System.out.println(entry.getValue().get(0) + " s'ha repetit " + entry.getKey() + " vegades");
+                    } else {
+                        System.out.println("Les cartes " + entry.getValue() + " s'han repetit " + entry.getKey() + " vegades");
+                    }
+                }
+            }
+            else {
+                System.out.println("No s'ha repetit cap carta de Pokemon");
+            }
+        }
+    }
+}
